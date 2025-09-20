@@ -37,3 +37,4 @@
 - データベース　PostgreSQL
 - デプロイ先　Render / AWS Elastic Beanstalk
 - 使用予定のGem　Devise　Omniauth　Pundit / Cancancan　Ransack　Active Storage / Shrine　Sidekiq　Kaminari / Pagy　Hotwire (Turbo + Stimulus)
+
