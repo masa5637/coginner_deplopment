@@ -57,3 +57,4 @@ MVP
 - 使用予定のGem　Devise　Omniauth　Pundit / Cancancan　Ransack　Active Storage / Shrine　Sidekiq　Kaminari / Pagy　Hotwire (Turbo + Stimulus)
 漫画データの保存先（外部サービス）
 画像・ファイル：Amazon S3 または Google Cloud Storage を利用
+
