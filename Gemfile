@@ -14,7 +14,7 @@ gem "ransack"
 
 gem "image_processing"
 
-gem "sidekiq"
+gem "sidekiq", '~> 8.0'
 
 gem "kaminari"
 

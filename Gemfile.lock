@@ -339,7 +339,7 @@ DEPENDENCIES
   rails (~> 7.1.5, >= 7.1.5.2)
   ransack
   selenium-webdriver
-  sidekiq
+  sidekiq (~> 8.0)
   sprockets-rails
   stimulus-rails
   turbo-rails
