@@ -21,13 +21,15 @@
   ・検索機能、ユーザーがジャンルのタグや作者名、作品名を検索できるようにする。
   ・コメント機能、ユーザーがその作品の感想や意見など発言できるようにする、誹謗中傷など心配する作者もいると思うのでコメントブロックできる機能もつける。
   ・いいね機能、作者側が言い値の数を見れるようにする。読者はいいねを押したらいいねした欄をみてもう一度閲覧しやすいようにする
-  ・共有機能、ほかのSNSなどに共有できる機能 本リリース ・フォロー機能（作者をフォローして新作通知）
+  ・共有機能、ほかのSNSなどに共有できる機能
+  本リリース
+  ・フォロー機能（作者をフォローして新作通知）
   ・DM機能（スカウトや読者とのやり取りができる）
   ・SNSログイン（googleやxなど）
-  ・通知機能（コメント返信・いいねなど） 
-  ## 使用する技術スタック 
-  使用するフレームワーク　Ruby on Rails 7.1 
-  - データベース　PostgreSQL - デプロイ先　Render / AWS Elastic Beanstalk 
-  - 使用予定のGem　Devise　Omniauth　Pundit / Cancancan　Ransack　Active Storage / Shrine　Sidekiq　Kaminari / Pagy　Hotwire (Turbo + Stimulus) 
+  ・通知機能（コメント返信・いいねなど）
+  ## 使用する技術スタック
+  使用するフレームワーク　Ruby on Rails 7.1
+  - データベース　PostgreSQL - デプロイ先　Render / AWS Elastic Beanstalk
+  - 使用予定のGem　Devise　Omniauth　Pundit / Cancancan　Ransack　Active Storage / Shrine　Sidekiq　Kaminari / Pagy　Hotwire (Turbo + Stimulus)
   漫画データの保存先（外部サービス）
    画像・ファイル：Amazon S3 または Google Cloud Storage を利用

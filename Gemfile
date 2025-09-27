@@ -2,6 +2,23 @@ source "https://rubygems.org"
 
 ruby "3.3.6"
 
+gem "devise"
+
+gem "omniauth"
+
+gem "omniauth-rails_csrf_protection"
+
+gem "pundit"
+
+gem "ransack"
+
+gem "image_processing"
+
+gem "sidekiq"
+
+gem "kaminari"
+
+gem "hotwire-rails"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.5", ">= 7.1.5.2"
 
