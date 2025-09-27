@@ -1,0 +1,28 @@
+<h2 style="text-align:center; margin-top:30px;">ログイン</h2>
+
+<div style="display:flex; justify-content:center; margin-top:20px;">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <div style="margin-bottom:10px;">
+      <%= f.label :email %><br>
+      <%= f.email_field :email, autofocus: true, autocomplete: "email", style: "padding:5px; width:250px;" %>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <%= f.label :password %><br>
+      <%= f.password_field :password, autocomplete: "current-password", style: "padding:5px; width:250px;" %>
+    </div>
+
+    <div style="margin-bottom:10px;">
+      <%= f.check_box :remember_me %>
+      <%= f.label :remember_me %>
+    </div>
+
+    <div>
+      <%= f.submit "ログイン", style: "padding:5px 20px; background-color:#7ec7e0; border:none; border-radius:5px;" %>
+    </div>
+  <% end %>
+</div>
+
+<div style="text-align:center; margin-top:15px;">
+  <%= link_to "サインアップはこちら", new_user_registration_path %>
+</div>

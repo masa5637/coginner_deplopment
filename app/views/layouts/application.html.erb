@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>CoginnerDeplopment</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title><%= content_for?(:title) ? yield(:title) : "Coginner" %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <%= csp_meta_tag %>
+  <%= csrf_meta_tags %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-  </head>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <%= link_to "coginner", root_path %>
+    </div>
 
-  <body>
+    <div class="search">
+      <%= form_with url: works_path, method: :get, local: true do |f| %>
+        <%= f.text_field :q, placeholder: "作品を検索" %>
+        <%= f.submit "検索" %>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <%= button_to "ログアウト", destroy_user_session_path, method: :delete %>
+      <% else %>
+        <%= link_to "ログイン", new_user_session_path %>
+      <% end %>
+    </div>
+  </header>
+
+  <main>
     <%= yield %>
-  </body>
+  </main>
+</body>
 </html>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
