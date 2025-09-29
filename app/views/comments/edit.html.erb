@@ -1,0 +1,11 @@
+<turbo-frame id="comment_<%= @comment.id %>">
+  <div class="comment-item" style="padding: 10px; background-color: #f9f9f9; border-radius: 8px;">
+    <%= form_with model: [@work, @comment], local: true do |f| %>
+      <%= f.text_area :content, rows: 2, style: "width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 5px;" %>
+      <div style="margin-top: 5px;">
+        <%= f.submit "更新", style: "padding: 4px 8px; border-radius: 5px; background-color: #4CAF50; color: white; border: none; cursor: pointer;" %>
+        <%= link_to "キャンセル", work_path(@work), style: "margin-left: 10px; color: #888; text-decoration: underline;" %>
+      </div>
+    <% end %>
+  </div>
+</turbo-frame>

@@ -1,0 +1,80 @@
+<div class="work-show-container" style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
+
+  <!-- いいねボタン -->
+  <div class="like-section" style="margin-bottom: 20px;">
+    <% if user_signed_in? %>
+      <% if @work.likes.exists?(user: current_user) %>
+        <%= button_to "♡ #{@work.likes.count}", work_like_path(@work, @work.likes.find_by(user: current_user)), method: :delete, class: "btn-like", style: "padding: 8px 12px; border-radius: 6px; background-color: #ff6b6b; color: white; border: none; cursor: pointer;" %>
+      <% else %>
+        <%= button_to "♡ #{@work.likes.count}", work_likes_path(@work), method: :post, class: "btn-like", style: "padding: 8px 12px; border-radius: 6px; background-color: #4CAF50; color: white; border: none; cursor: pointer;" %>
+      <% end %>
+    <% else %>
+      <span style="font-size: 18px;">♡ <%= @work.likes.count %></span>
+    <% end %>
+  </div>
+
+  <!-- 漫画画像（縦スクロール） -->
+  <div class="work-images" style="display: flex; flex-direction: column; gap: 20px;">
+    <% if @work.images.attached? %>
+      <% @work.images.each do |image| %>
+        <div class="work-image-page" style="width: 100%; background-color: #f5f5f5; border-radius: 10px; overflow: hidden;">
+          <%= image_tag image, style: "width: 100%; height: auto; display: block;" %>
+        </div>
+      <% end %>
+    <% else %>
+      <div style="text-align: center; color: #999; font-size: 48px; padding: 50px 0;">📷</div>
+    <% end %>
+  </div>
+
+  <!-- コメントセクション -->
+  <div class="comment-section" style="margin-top: 30px;">
+    <!-- コメント入力 -->
+    <div class="comment-input" style="margin-bottom: 20px;">
+      <% if user_signed_in? %>
+        <%= form_with model: [@work, @work.comments.build], local: true do |f| %>
+          <%= f.text_area :content, placeholder: "コメントを入力する", style: "width: 100%; padding: 10px; font-size: 14px; border: 1px solid #ddd; border-radius: 8px;", rows: 3 %>
+          <%= f.submit "投稿", style: "margin-top: 10px; padding: 8px 12px; border-radius: 6px; background-color: #4CAF50; color: white; border: none; cursor: pointer;" %>
+        <% end %>
+      <% else %>
+        <p>コメントするには <%= link_to "ログイン", new_user_session_path %> が必要です</p>
+      <% end %>
+    </div>
+
+    <!-- コメント一覧 -->
+    <div class="comments-list" style="display: flex; flex-direction: column; gap: 10px;">
+      <% @work.comments.order(created_at: :desc).each do |comment| %>
+        <turbo-frame id="comment_<%= comment.id %>">
+          <div class="comment-item" style="padding: 10px; background-color: #f9f9f9; border-radius: 8px;">
+            <% if comment.user == current_user && params[:edit_comment_id].to_i == comment.id %>
+              <!-- 編集フォーム -->
+              <%= form_with model: [@work, comment], local: true do |f| %>
+                <%= f.text_area :content, rows: 2, style: "width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 5px;" %>
+                <div style="margin-top: 5px;">
+                  <%= f.submit "更新", style: "padding: 4px 8px; border-radius: 5px; background-color: #4CAF50; color: white; border: none; cursor: pointer;" %>
+                  <%= link_to "キャンセル", work_path(@work), style: "margin-left: 10px; color: #888; text-decoration: underline;" %>
+                </div>
+              <% end %>
+            <% else %>
+              <div style="font-weight: bold; margin-bottom: 5px;">
+                <%= comment.user.display_name || "ユーザー" %> 
+                <span style="font-size: 11px; color: #888;"> <%= comment.created_at.strftime("%Y-%m-%d %H:%M") %></span>
+                <% if comment.user == current_user %>
+                  <%= link_to "編集", edit_work_comment_path(@work, comment), data: { turbo_frame: "comment_#{comment.id}" }, class: "edit-link", style: "margin-left: 10px; font-size: 12px; color: #007BFF;" %>
+                  <%= button_to "削除", work_comment_path(@work, comment), method: :delete, data: { confirm: "本当に削除しますか？" }, form: { style: "display:inline" }, class: "delete-btn", style: "margin-left: 5px; font-size: 12px; color: #FF6B6B; background:none; border:none; cursor:pointer;" %>
+                <% end %>
+              </div>
+              <p style="margin: 0;"><%= comment.content %></p>
+            <% end %>
+          </div>
+        </turbo-frame>
+      <% end %>
+
+      <% if @work.comments.empty? %>
+        <div style="text-align: center; color: #999; padding: 20px;">
+          <p>まだコメントがありません</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+</div>
