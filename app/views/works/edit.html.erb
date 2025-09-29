@@ -1,0 +1,23 @@
+<h2>投稿を編集</h2>
+
+<%= form_with model: @work, local: true do |f| %>
+  <div>
+    <%= f.label :title %>
+    <%= f.text_field :title, style: "width:100%" %>
+  </div>
+
+  <div>
+    <%= f.label :description %>
+    <%= f.text_area :description, rows: 5, style: "width:100%" %>
+  </div>
+
+  <div>
+    <%= f.label :images %>
+    <%= f.file_field :images, multiple: true %>
+  </div>
+
+  <div style="margin-top:10px;">
+    <%= f.submit "更新", class: "btn" %>
+    <%= link_to "キャンセル", work_path(@work), class: "btn-cancel" %>
+  </div>
+<% end %>

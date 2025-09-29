@@ -1,4 +1,8 @@
 <div class="work-show-container" style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
+  <% if user_signed_in? && @work.user == current_user %>
+    <%= link_to "編集", edit_work_path(@work), class: "btn-edit" %>
+    <%= button_to "削除", work_path(@work), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn-delete" %>
+  <% end %>
 
   <!-- いいねボタン -->
   <div class="like-section" style="margin-bottom: 20px;">
