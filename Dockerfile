@@ -9,7 +9,8 @@ WORKDIR /rails
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
-    BUNDLE_WITHOUT=development:test
+    BUNDLE_WITHOUT=development:test \
+    SECRET_KEY_BASE=dummysecret123
 
 # --- Build stage ---
 FROM base AS build
@@ -37,8 +38,10 @@ COPY . .
 # bin ファイルの改行コードを LF に統一して実行権限を付与
 RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
 
-# Assets precompile（Sprockets / CSSBundling 経由）
-RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
+# DB に接続せずに assets precompile
+ENV RAILS_ENV=production \
+    RAILS_SKIP_DB=true
+RUN bin/rails assets:precompile
 
 # Bootsnap プリコンパイル
 RUN bundle exec bootsnap precompile app/ lib/
