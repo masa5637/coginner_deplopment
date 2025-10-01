@@ -1,4 +1,6 @@
-@import "bootstrap";
+@use 'bootstrap/scss/bootstrap' as *;
+@use 'bootstrap-icons/font/bootstrap-icons.scss' as *;
+@use 'dashboard' as *;
 
     * {
       margin: 0;
