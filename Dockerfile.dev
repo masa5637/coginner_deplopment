@@ -19,16 +19,11 @@ RUN apt-get update -qq && \
     nodejs \
     npm \
     postgresql-client && \
-    npm install -g yarn && \
     rm -rf /var/lib/apt/lists/*
 
 # Gemfile & Gemfile.lock をコピーして bundle install
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
-
-# package.json & yarn.lock をコピーして yarn install
-COPY package.json yarn.lock ./
-RUN yarn install
 
 # アプリケーションコードをコピー
 COPY . .
