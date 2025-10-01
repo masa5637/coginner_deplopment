@@ -8,6 +8,8 @@
   
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
+</head> <!-- ← これが必要！ -->
+
 <body>
   <header>
     <div class="logo">
@@ -22,7 +24,6 @@
         <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout-btn" %>
       </div>
     <% else %>
-      <!-- ログイン前のヘッダー（ログインボタンのみ） -->
       <div class="login-nav">
         <%= link_to "ログイン", new_user_session_path %>
       </div>

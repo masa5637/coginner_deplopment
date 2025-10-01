@@ -1,0 +1,15 @@
+{
+  "name": "coginner_deplopment",
+  "private": true,
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.0",
+    "@hotwired/turbo-rails": "^7.3.0",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.0",
+    "bootstrap-icons": "^1.11.0",
+    "esbuild": "^0.25.0"
+  },
+  "scripts": {
+    "build": "yarn esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets"
+  }
+}

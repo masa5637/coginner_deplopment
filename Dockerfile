@@ -14,7 +14,7 @@ ENV RAILS_ENV=production \
 # --- Build stage ---
 FROM base AS build
 
-# sassc のコンパイルに必要なパッケージを追加
+# 必要なパッケージと Node.js + Yarn をインストール
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
       build-essential \
@@ -23,20 +23,28 @@ RUN apt-get update -qq && \
       libpq-dev \
       libvips \
       libsass-dev \
-      python-is-python3 && \
+      python-is-python3 \
+      gnupg2 && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    npm install -g yarn && \
     rm -rf /var/lib/apt/lists/*
 
 # Gemfile をコピーして bundle install
 COPY Gemfile Gemfile.lock ./
-RUN bundle install && \
-    rm -rf ~/.bundle && \
-    bundle exec bootsnap precompile --gemfile
+RUN bundle install && rm -rf ~/.bundle && bundle exec bootsnap precompile --gemfile
 
 # アプリコードをコピー
 COPY . .
 
 # bin ファイルの改行コードを LF に統一して実行権限を付与
 RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
+
+# JavaScript 依存関係をインストール
+RUN yarn install --check-files
+
+# JS/CSS をビルド
+RUN yarn build
 
 # アセットプリコンパイル（DB接続を無効化）
 RUN SECRET_KEY_BASE=dummysecret123 \
