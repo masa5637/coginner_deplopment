@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 ruby "3.3.6"
 
+gem "sassc-rails"
+
 gem "bootstrap", "~> 5.3"
 
 gem "bootstrap-icons", "~> 1.0"

@@ -34,6 +34,9 @@ RUN bundle install && \
 # アプリコードをコピー
 COPY . .
 
+# bin ファイルの改行コードを LF に統一して実行権限を付与
+RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
+
 # Assets precompile（Sprockets / CSSBundling 経由）
 RUN SECRET_KEY_BASE_DUMMY=1 bin/rails assets:precompile
 
