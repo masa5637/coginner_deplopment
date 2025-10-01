@@ -1,0 +1,54 @@
+<h1 style="text-align:center; margin:20px 0;">プロフィール</h1>
+
+<div style="max-width:800px; margin:0 auto; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); padding:20px;">
+  
+  <!-- アバター -->
+  <div style="text-align:center; margin-bottom:20px;">
+    <% if @user.avatar.attached? %>
+      <%= image_tag @user.avatar.variant(resize_to_limit: [120,120]), style: "border-radius:50%; object-fit:cover;" %>
+    <% else %>
+      <div style="width:120px; height:120px; border-radius:50%; background:#ddd; display:flex; align-items:center; justify-content:center; font-size:40px; margin:0 auto;">
+        👤
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 名前 -->
+  <h2 style="text-align:center;"><%= @user.display_name || "ユーザー" %></h2>
+  
+  <!-- 自己紹介 -->
+  <p style="text-align:center; color:#666;"><%= @user.bio.presence || "自己紹介はまだありません。" %></p>
+
+  <!-- 編集ボタン -->
+  <div style="text-align:center; margin:15px 0;">
+    <%= link_to "プロフィールを編集", edit_profile_path, class: "btn", style: "background:#007bff; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none;" %>
+  </div>
+
+  <hr style="margin:20px 0;">
+
+  <!-- 投稿した作品 -->
+  <h3>自分の投稿作品</h3>
+  <% if @works.any? %>
+    <ul>
+      <% @works.each do |work| %>
+        <li><%= link_to work.title, work_path(work) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>まだ作品を投稿していません。</p>
+  <% end %>
+
+  <hr style="margin:20px 0;">
+
+  <!-- いいねした作品 -->
+  <h3>いいねした作品</h3>
+  <% if @liked_works.any? %>
+    <ul>
+      <% @liked_works.each do |work| %>
+        <li><%= link_to work.title, work_path(work) %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>まだ「いいね」した作品はありません。</p>
+  <% end %>
+</div>
