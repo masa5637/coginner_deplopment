@@ -38,9 +38,8 @@ COPY . .
 # bin ファイルの改行コードを LF に統一して実行権限を付与
 RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
 
-# アセットプリコンパイル
+# アセットプリコンパイル（DB接続を無効化）
 RUN SECRET_KEY_BASE=dummysecret123 \
-    DATABASE_URL=nulldb://localhost/db \
     RAILS_ENV=production \
     bin/rails assets:precompile
 
