@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 ruby "3.3.6"
 
+gem "bootstrap", "~> 5.3"
+
+gem "bootstrap-icons", "~> 1.11"
+
 gem "devise"
 
 gem "omniauth"
