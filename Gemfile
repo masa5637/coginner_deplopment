@@ -4,7 +4,7 @@ ruby "3.3.6"
 
 gem "bootstrap", "~> 5.3"
 
-gem "bootstrap-icons", "~> 1.11"
+gem "bootstrap-icons", "~> 1.0"
 
 gem "devise"
 
