@@ -9,13 +9,12 @@ WORKDIR /rails
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_PATH=/usr/local/bundle \
-    BUNDLE_WITHOUT=development:test \
-    SECRET_KEY_BASE=dummysecret123
+    BUNDLE_WITHOUT=development:test
 
 # --- Build stage ---
 FROM base AS build
 
-# ビルドに必要なパッケージのみ
+# sassc のコンパイルに必要なパッケージを追加
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y \
       build-essential \
@@ -23,6 +22,7 @@ RUN apt-get update -qq && \
       git \
       libpq-dev \
       libvips \
+      libsass-dev \
       python-is-python3 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,10 +38,11 @@ COPY . .
 # bin ファイルの改行コードを LF に統一して実行権限を付与
 RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
 
-# DB に接続せずに assets precompile
-ENV RAILS_ENV=production \
-    RAILS_SKIP_DB=true
-RUN bin/rails assets:precompile
+# アセットプリコンパイル
+RUN SECRET_KEY_BASE=dummysecret123 \
+    DATABASE_URL=nulldb://localhost/db \
+    RAILS_ENV=production \
+    bin/rails assets:precompile
 
 # Bootsnap プリコンパイル
 RUN bundle exec bootsnap precompile app/ lib/

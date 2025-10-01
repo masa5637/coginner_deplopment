@@ -9,6 +9,8 @@ Rails.application.config.assets.version = "1.0"
 # bootstrap-icons gem のパス（gemが読み込まれている場合のみ）
 if defined?(BootstrapIcons)
   Rails.application.config.assets.paths << BootstrapIcons.assets_path
+else
+  Rails.application.config.assets.paths << Rails.root.join("vendor", "assets", "stylesheets")
 end
 
 # Precompile additional assets.
