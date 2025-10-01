@@ -1,0 +1,43 @@
+<h1 style="text-align: center; margin: 20px 0;">いいねした作品一覧</h1>
+
+<div class="works-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto;">
+  <% if @liked_works.any? %>
+    <% @liked_works.each do |work| %>
+      <div class="work-card" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column;">
+        
+        <!-- 作品画像 -->
+        <div class="work-image" style="width: 100%; aspect-ratio: 4/3; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
+          <% if work.images.attached? %>
+            <%= link_to work_path(work) do %>
+              <%= image_tag work.images.first.variant(resize_to_limit: [400, 300]), style: "width: 100%; height: 100%; object-fit: cover;" %>
+            <% end %>
+          <% else %>
+            <div style="color: #aaa; font-size: 40px;">📷</div>
+          <% end %>
+        </div>
+
+        <!-- 本文 -->
+        <div style="padding: 15px; flex: 1;">
+          <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">
+            <%= link_to work.title, work_path(work), style: "text-decoration: none; color: #333;" %>
+          </h3>
+          <p style="font-size: 13px; color: #666; margin-bottom: 10px;">
+            <%= truncate(work.description, length: 60) %>
+          </p>
+
+          <!-- ユーザー情報 -->
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: #ddd; overflow: hidden;">
+              <% if work.user&.avatar&.attached? %>
+                <%= image_tag work.user.avatar.variant(resize_to_limit: [32, 32]), style: "width: 100%; height: 100%; object-fit: cover;" %>
+              <% end %>
+            </div>
+            <span style="font-size: 13px; color: #333;"><%= work.user&.display_name || "ユーザーネーム" %></span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p style="text-align: center; color: #666;">まだ「いいね」した作品はありません</p>
+  <% end %>
+</div>

@@ -1,6 +1,10 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_work
+  before_action :set_work, only: [:create, :destroy]
+
+  def index
+    @liked_works = current_user.likes.includes(:work).map(&:work)
+  end
 
   def create
     @work.likes.create(user: current_user)
