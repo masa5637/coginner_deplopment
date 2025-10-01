@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_10_01_075148) do
+ActiveRecord::Schema[7.1].define(version: 2025_10_01_210740) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,11 +43,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_01_075148) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "content"
     t.bigint "user_id", null: false
+    t.bigint "work_id", null: false
+    t.text "content", null: false
+    t.boolean "blocked", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "work_id", null: false
     t.index ["user_id"], name: "index_comments_on_user_id"
     t.index ["work_id"], name: "index_comments_on_work_id"
   end
@@ -64,9 +65,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_01_075148) do
 
   create_table "likes", force: :cascade do |t|
     t.bigint "user_id", null: false
+    t.bigint "work_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "work_id", null: false
+    t.index ["user_id", "work_id"], name: "index_likes_on_user_id_and_work_id", unique: true
     t.index ["user_id"], name: "index_likes_on_user_id"
     t.index ["work_id"], name: "index_likes_on_work_id"
   end
@@ -97,8 +99,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_01_075148) do
   create_table "profiles", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.text "bio"
-    t.string "avatar"
-    t.string "website"
+    t.string "target_publisher"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
@@ -114,23 +115,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_10_01_075148) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
-    t.integer "role"
+    t.string "name", null: false
+    t.string "email", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "encrypted_password", default: "", null: false
     t.string "display_name"
     t.text "bio"
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

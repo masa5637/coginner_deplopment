@@ -6,8 +6,10 @@ Rails.application.config.assets.version = "1.0"
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
 
-# bootstrap-icons gem のパス（node_modules の行は削除）
-Rails.application.config.assets.paths << BootstrapIcons.assets_path
+# bootstrap-icons gem のパス（gemが読み込まれている場合のみ）
+if defined?(BootstrapIcons)
+  Rails.application.config.assets.paths << BootstrapIcons.assets_path
+end
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
