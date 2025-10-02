@@ -45,3 +45,11 @@ USER rails
 EXPOSE 3000
 
 CMD ["bin/rails", "server", "-b", "0.0.0.0"]
+
+COPY entrypoint.sh /rails/entrypoint.sh
+
+# 実行権限を付与
+RUN chmod +x /rails/entrypoint.sh
+
+# エントリーポイントとして設定
+ENTRYPOINT ["/rails/entrypoint.sh"]
