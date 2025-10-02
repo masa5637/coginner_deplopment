@@ -1,5 +1,4 @@
 # syntax=docker/dockerfile:1
-
 FROM ruby:3.3.6-slim
 
 # 作業ディレクトリ
@@ -30,15 +29,16 @@ COPY . .
 # bin ファイルの改行コードを LF に統一して実行権限付与
 RUN sed -i 's/\r$//' bin/* && chmod +x bin/*
 
-# JavaScript 依存関係をインストール
+# JavaScript/CSS 依存関係をインストール & ビルド
 RUN yarn install --check-files
+RUN yarn build
 
 # アセットプリコンパイル
 RUN SECRET_KEY_BASE=dummysecret123 \
     RAILS_ENV=production \
     bin/rails assets:precompile
 
-# entrypoint.sh をコピーして実行権限を付与（rootユーザーで実行）
+# entrypoint.sh をコピーして実行権限付与
 COPY entrypoint.sh /rails/entrypoint.sh
 RUN chmod +x /rails/entrypoint.sh
 
@@ -48,7 +48,7 @@ USER rails
 
 EXPOSE 3000
 
-# エントリーポイントとして設定
+# エントリーポイント
 ENTRYPOINT ["/rails/entrypoint.sh"]
 
 # デフォルトコマンド
