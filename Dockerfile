@@ -38,18 +38,18 @@ RUN SECRET_KEY_BASE=dummysecret123 \
     RAILS_ENV=development \
     bin/rails assets:precompile
 
-# Rails 用非 root ユーザー作成
+# entrypoint.sh をコピーして実行権限を付与（rootユーザーで実行）
+COPY entrypoint.sh /rails/entrypoint.sh
+RUN chmod +x /rails/entrypoint.sh
+
+# Rails 用非 root ユーザー作成（最後に実行）
 RUN useradd -m rails && chown -R rails:rails /rails
 USER rails
 
 EXPOSE 3000
 
-CMD ["bin/rails", "server", "-b", "0.0.0.0"]
-
-COPY entrypoint.sh /rails/entrypoint.sh
-
-# 実行権限を付与
-RUN chmod +x /rails/entrypoint.sh
-
 # エントリーポイントとして設定
 ENTRYPOINT ["/rails/entrypoint.sh"]
+
+# デフォルトコマンド
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
