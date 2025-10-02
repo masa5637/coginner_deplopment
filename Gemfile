@@ -6,6 +6,8 @@ group :development, :test do
   gem 'dotenv-rails'
 end
 
+gem "importmap-rails"
+
 gem "dartsass-rails"
 
 gem "sassc-rails"
