@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
@@ -10,7 +8,12 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :liked_works, through: :likes, source: :work
-  def display_name
-    name || email.split("@").first
+
+  validates :display_name, length: { maximum: 50 }, allow_blank: true
+
+  # display_nameカラムがあるので、メソッドは不要
+  # もしdisplay_nameが空の場合のフォールバック
+  def display_name_or_default
+    display_name.presence || name.presence || email.split("@").first
   end
 end
