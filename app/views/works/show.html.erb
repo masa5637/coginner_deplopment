@@ -1,3 +1,28 @@
+<!-- 共有ボタン -->
+< class="share-section" style="margin: 20px 0;">
+  <span>作品を共有:</span>
+
+  <!-- Twitter -->
+  <!-- Twitter -->
+  <a href="https://twitter.com/intent/tweet?text=<%= URI.encode_www_form_component(@work.title) %>&url=<%= work_url(@work) %>" target="_blank" 
+     style="margin-left: 10px; padding: 6px 10px; background-color: #1DA1F2; color: white; border-radius: 5px; text-decoration: none;">
+    Twitter
+  </a>
+ 
+
+  <!-- LINE -->
+  <a href="https://social-plugins.line.me/lineit/share?url=<%= work_url(@work) %>" target="_blank"
+     style="margin-left: 10px; padding: 6px 10px; background-color: #00C300; color: white; border-radius: 5px; text-decoration: none;">
+    LINE
+  </a>
+
+  <!-- URLコピー -->
+  <button onclick="navigator.clipboard.writeText('<%= work_url(@work) %>').then(()=>alert('URLをコピーしました'))"
+          style="margin-left: 10px; padding: 6px 10px; border-radius: 5px; background-color: #888; color: white; border: none; cursor: pointer;">
+    コピー
+  </button>
+</div>
+
 <div class="work-show-container" style="max-width: 1200px; margin: 20px auto; padding: 0 20px;">
   <% if user_signed_in? && @work.user == current_user %>
     <%= link_to "編集", edit_work_path(@work), class: "btn-edit" %>
