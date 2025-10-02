@@ -35,7 +35,7 @@ RUN yarn install --check-files
 
 # アセットプリコンパイル
 RUN SECRET_KEY_BASE=dummysecret123 \
-    RAILS_ENV=development \
+    RAILS_ENV=production \
     bin/rails assets:precompile
 
 # entrypoint.sh をコピーして実行権限を付与（rootユーザーで実行）
