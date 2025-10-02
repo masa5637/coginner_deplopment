@@ -2,6 +2,10 @@ source "https://rubygems.org"
 
 ruby "3.3.6"
 
+group :development, :test do
+  gem 'dotenv-rails'
+end
+
 gem "sassc-rails"
 
 gem "bootstrap", "~> 5.3"
