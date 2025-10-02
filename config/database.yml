@@ -2,23 +2,23 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch("POSTGRES_USER") { "masa561" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "masa0530" } %>
-  host: <%= ENV.fetch("POSTGRES_HOST") { "host.docker.internal" } %>
-  port: <%= ENV.fetch("POSTGRES_PORT") { 5433 } %>
 
 development:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_DB") { "coginner_development" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "masa561" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "masa0530" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
 test:
   <<: *default
   database: <%= ENV.fetch("POSTGRES_TEST_DB") { "coginner_test" } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "masa561" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "masa0530" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
 
 production:
   <<: *default
-  database: <%= ENV['POSTGRES_DB'] %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  host: <%= ENV['POSTGRES_HOST'] %>
-  port: <%= ENV.fetch("POSTGRES_PORT") { 5433 } %>
+  url: <%= ENV['DATABASE_URL'] %>
