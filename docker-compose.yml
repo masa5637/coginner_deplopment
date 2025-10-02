@@ -4,31 +4,36 @@ services:
   db:
     image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: masa561
+      POSTGRES_PASSWORD: masa0530
       POSTGRES_DB: coginner_development
     ports:
-      - "5433:5432"   # ← ホスト側 5433 にマッピング
+      - "5433:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     command: ./bin/rails server -b 0.0.0.0
     ports:
       - "3000:3000"
     depends_on:
       - db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: masa561
+      POSTGRES_PASSWORD: masa0530
       POSTGRES_DB: coginner_development
       POSTGRES_HOST: db
-      POSTGRES_PORT: 5432   # ← コンテナ内は通常 5432、ホスト側は 5433 にマッピング
+      POSTGRES_PORT: 5432
+      RAILS_ENV: development
     volumes:
       - .:/rails
+      - bundle_data:/usr/local/bundle
     stdin_open: true
     tty: true
 
 volumes:
   db_data:
+  bundle_data:
