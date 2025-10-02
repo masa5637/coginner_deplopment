@@ -3,16 +3,18 @@ class WorksController < ApplicationController
 
   def index
     @q = Work.ransack(params[:q])
+    
+    # この1行を追加するだけ
+    @has_search_query = params[:q].present? && params[:q].values.any?(&:present?)
 
     if params[:q].present?
-      # 検索条件がある場合はransackの結果を返す
       @works = @q.result(distinct: true).includes(:user, :tags)
     else
-      # 検索条件がない場合は全作品を返す
       @works = Work.includes(:user, :tags).all
     end
   end
 
+  # 以下は全て変更なし
   def show
     @show_share_button = true
   end
@@ -23,7 +25,7 @@ class WorksController < ApplicationController
 
   def create
     @work = Work.new(work_params.except(:images))
-    @work.user = current_user # 必須なら
+    @work.user = current_user
 
     if work_params[:images]
       work_params[:images].each do |image|
@@ -40,12 +42,10 @@ class WorksController < ApplicationController
   end
 
   def edit
-    # @work は before_action で取得済み
   end
 
   def update
     if @work.update(work_params.except(:images))
-      # 追加の画像があればattach
       if work_params[:images]
         work_params[:images].each do |image|
           @work.images.attach(image)
@@ -72,7 +72,6 @@ class WorksController < ApplicationController
   def work_params
     permitted = params.require(:work).permit(:title, :description, images: [], tag_ids: [])
 
-    # images 配列の中の空文字を削除
     if permitted[:images]
       permitted[:images].reject!(&:blank?)
     end

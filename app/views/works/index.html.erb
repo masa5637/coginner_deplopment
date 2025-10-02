@@ -1,4 +1,17 @@
+<%# 検索結果の表示 %>
+<% if @has_search_query %>
+  <div style="padding: 15px 20px; background-color: #f5f5f5; margin: 20px auto; max-width: 1200px; border-radius: 8px;">
+    <p style="margin: 0; font-size: 14px;">
+      「<strong><%= params.dig(:q, :title_or_description_cont) %></strong>」の検索結果: 
+      <strong><%= @works.count %></strong>件
+    </p>
+    <%= link_to "検索をクリア", works_path, 
+        style: "color: #666; text-decoration: underline; margin-left: 15px; font-size: 13px;" %>
+  </div>
+<% end %>
+
 <h1 style="text-align: center; margin: 20px 0;">作品一覧</h1>
+
 <!-- 作品グリッド -->
 <div class="works-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto;">
   <% if @works.any? %>
@@ -14,7 +27,6 @@
           <% else %>
             <div style="color: #aaa; font-size: 40px;">📷</div>
           <% end %>
-
         </div>
 
         <!-- 本文 -->
@@ -39,6 +51,8 @@
       </div>
     <% end %>
   <% else %>
-    <p style="text-align: center; color: #666;">作品がまだ登録されていません</p>
+    <p style="text-align: center; color: #666; padding: 40px;">
+      <%= @has_search_query ? "検索結果が見つかりませんでした" : "作品がまだ登録されていません" %>
+    </p>
   <% end %>
 </div>

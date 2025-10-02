@@ -14,7 +14,6 @@
 
   <!-- JavaScript -->
   <%= javascript_importmap_tags %>
-    <%= javascript_importmap_tags %>
 </head>
 
 <body>
@@ -38,7 +37,10 @@
 
     <div class="search">
       <%= form_with url: works_path, method: :get, local: true do |f| %>
-        <%= f.text_field :q, placeholder: "検索" %>
+        <%= f.text_field :q, 
+            name: "q[title_or_description_cont]", 
+            placeholder: "タイトルや説明文で検索",
+            value: params.dig(:q, :title_or_description_cont) %>
         <%= f.submit "検索" %>
       <% end %>
     </div>
