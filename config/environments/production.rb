@@ -99,4 +99,6 @@ Rails.application.configure do
   config.hosts << /.*\.onrender\.com/
   # config/environments/production.rb の最後に追加
   config.hosts.clear
+
+  config.assets.js_compressor = Uglifier.new(harmony: true)
 end
