@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <%= csp_meta_tag %>
   <%= csrf_meta_tags %>
-  
+
+  <!-- CSS -->
   <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+
+  <!-- JavaScript -->
   <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
-</head> <!-- ← これが必要！ -->
+</head> <!-- ← この閉じタグは必須 -->
 
 <body>
   <header>
     <div class="logo">
       <%= link_to "coginner", root_path %>
     </div>
-    
+
     <% if user_signed_in? %>
       <div class="user-nav">
         <%= link_to "＋", new_work_path, class: "nav-icon", title: "漫画を投稿する" %>
@@ -36,6 +39,7 @@
       <% end %>
     </div>
   </header>
+
   <main>
     <%= yield %>
   </main>

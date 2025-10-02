@@ -1,31 +1,34 @@
 version: "3.9"
-services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    command: bash -c "rm -f tmp/pids/server.pid && bin/rails server -b 0.0.0.0 -p 3000"
-    volumes:
-      - .:/rails
-      - bundle:/usr/local/bundle
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: postgres://postgres:password@db:5432/coginner_development_development
 
+services:
   db:
     image: postgres:15
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: coginner_development_development
-    volumes:
-      - db-data:/var/lib/postgresql/data
+      POSTGRES_DB: coginner_development
     ports:
-      - "5432:5432"
+      - "5433:5432"   # ← ホスト側 5433 にマッピング
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: ./bin/rails server -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: coginner_development
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432   # ← コンテナ内は通常 5432、ホスト側は 5433 にマッピング
+    volumes:
+      - .:/rails
+    stdin_open: true
+    tty: true
 
 volumes:
-  db-data:
-  bundle:
+  db_data:

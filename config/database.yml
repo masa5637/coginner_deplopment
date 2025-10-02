@@ -1,13 +1,11 @@
-# config/database.yml
-
 default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV.fetch("POSTGRES_USER") { "masa561" } %>
-  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "masa0530" } %>
-  host: <%= ENV.fetch("POSTGRES_HOST") { "localhost" } %>
-  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>
+  username: <%= ENV.fetch("POSTGRES_USER") { "postgres" } %>
+  password: <%= ENV.fetch("POSTGRES_PASSWORD") { "password" } %>
+  host: <%= ENV.fetch("POSTGRES_HOST") { "db" } %>
+  port: <%= ENV.fetch("POSTGRES_PORT") { 5432 } %>   # ← コンテナ内のポートは 5432 のまま
 
 development:
   <<: *default
