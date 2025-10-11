@@ -3,7 +3,12 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user = current_user
+    if params[:id].present?
+      @user = user.find(params[:id])
+    else
+      @user = current_user
+    end
+
     @works = @user.works.order(created_at: :desc)
     @liked_works = @user.likes.includes(:work).map(&:work).compact
   end

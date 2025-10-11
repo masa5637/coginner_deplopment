@@ -5,8 +5,7 @@
       「<strong><%= params.dig(:q, :title_or_description_cont) %></strong>」の検索結果: 
       <strong><%= @works.count %></strong>件
     </p>
-    <%= link_to "検索をクリア", works_path, 
-        style: "color: #666; text-decoration: underline; margin-left: 15px; font-size: 13px;" %>
+    <%= link_to "検索をクリア", works_path, style: "color: #666; text-decoration: underline; margin-left: 15px; font-size: 13px;" %>
   </div>
 <% end %>
 
@@ -17,11 +16,11 @@
   <% if @works.any? %>
     <% @works.each do |work| %>
       <div class="work-card" style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column;">
-        
+
         <!-- 作品画像 -->
         <div class="work-image" style="width: 100%; aspect-ratio: 4/3; background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
           <% if work.images.attached? %>
-            <%= link_to work_path(work) do %>
+            <%= link_to work_path(work), style: "display: block;" do %>
               <%= image_tag work.images.first.variant(resize_to_limit: [400, 300]), style: "width: 100%; height: 100%; object-fit: cover;" %>
             <% end %>
           <% else %>
@@ -39,14 +38,26 @@
           </p>
 
           <!-- ユーザー情報 -->
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #ddd; overflow: hidden;">
-              <% if work.user&.avatar&.attached? %>
-                <%= image_tag work.user.avatar.variant(resize_to_limit: [32, 32]), style: "width: 100%; height: 100%; object-fit: cover;" %>
+          <% if work.user.present? %>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <%= link_to profile_path(work.user), data: { turbo: false }, style: "display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit;" do %>
+                <div style="width: 32px; height: 32px; border-radius: 50%; background: #ddd; overflow: hidden;">
+                  <% if work.user.avatar&.attached? %>
+                    <%= image_tag work.user.avatar.variant(resize_to_limit: [32,32]), style: "width: 100%; height: 100%; object-fit: cover;" %>
+                  <% else %>
+                    <div style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: #aaa;">👤</div>
+                  <% end %>
+                </div>
+                <span style="font-size: 13px; color: #333;"><%= work.user.display_name %></span>
               <% end %>
             </div>
-            <span style="font-size: 13px; color: #333;"><%= work.user&.display_name || "ユーザーネーム" %></span>
-          </div>
+          <% else %>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #eee;"></div>
+              <span style="font-size: 13px; color: #999;">不明なユーザー</span>
+            </div>
+          <% end %>
+
         </div>
       </div>
     <% end %>

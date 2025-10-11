@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # ✅ 単数形に変更（resource）にする
   resource :profile, only: [:show, :edit, :update]
+  resources :profile, only: [:show]
 
   # ✅ いいね一覧
   resources :likes, only: [:index]
