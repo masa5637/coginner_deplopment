@@ -31,7 +31,9 @@
       </div>
     <% else %>
       <div class="login-nav">
-        <%= link_to "ログイン", new_user_session_path %>
+        <%= link_to new_user_session_path do %>
+          <%= image_tag "icons8_login.png", alt: "ログイン", class: "login-icon" , width: 36 %>
+        <% end %>
       </div>
     <% end %>
 
