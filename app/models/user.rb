@@ -21,6 +21,11 @@ class User < ApplicationRecord
   # バリデーション
   validates :display_name, length: { maximum: 50 }, allow_blank: true
 
+  #メッセージ
+  has_many :room_users
+  has_many :rooms, through: :room_users
+  has_many :messages
+
   # display_nameが空の場合のフォールバック
   def display_name_or_default
     display_name.presence || name.presence || email.split("@").first

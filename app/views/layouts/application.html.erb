@@ -28,6 +28,7 @@
         <%= link_to "♡", likes_path, class: "nav-icon", title: "いいね一覧" %>
         <%= link_to "👤", profile_path, class: "nav-icon", title: "プロフィール" %>
         <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "logout-btn" %>
+        <%= link_to rooms_path, class: "nav-icon", title: "DM" do %><i class="bi bi-chat-dots"></i><% end %>
       </div>
     <% else %>
       <div class="login-nav">

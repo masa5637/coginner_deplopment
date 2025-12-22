@@ -24,4 +24,8 @@ Rails.application.routes.draw do
   resources :likes, only: [:index]
 
   resources :relationships, only: [:create, :destroy]
+
+  resources :rooms, only: [:index, :show, :create, :destroy] do
+    resources :messages, only: [:create, :destroy]
+  end
 end

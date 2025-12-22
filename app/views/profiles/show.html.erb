@@ -25,18 +25,21 @@
     フォロワー: <%= link_to @user.followers.count, followers_user_path(@user) %>
   </div>
 
-  <!-- 編集ボタン / フォロー・アンフォロー -->
+  <!-- 編集ボタン / フォロー・アンフォロー / DMボタン -->
   <% if @user == current_user %>
     <div style="text-align:center; margin:15px 0;">
       <%= link_to "プロフィールを編集", edit_profile_path, class: "btn", style: "background:#007bff; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none;" %>
     </div>
   <% else %>
-    <div style="text-align:center; margin:15px 0;">
+    <div style="text-align:center; margin:15px 0; display:flex; justify-content:center; gap:10px;">
       <% if current_user.following?(@user) %>
         <%= button_to "フォロー解除", relationship_path(current_user.active_relationships.find_by(followed_id: @user.id)), method: :delete, class: "btn", style: "background:#dc3545; color:#fff; padding:6px 12px; border-radius:6px;" %>
       <% else %>
         <%= button_to "フォロー", relationships_path(followed_id: @user.id), method: :post, class: "btn", style: "background:#007bff; color:#fff; padding:6px 12px; border-radius:6px;" %>
       <% end %>
+
+      <!-- DMボタン -->
+      <%= button_to "✉️ DMを送る", rooms_path(user_id: @user.id), method: :post, class: "btn", style: "background:#28a745; color:#fff; padding:6px 12px; border-radius:6px;" %>
     </div>
   <% end %>
 

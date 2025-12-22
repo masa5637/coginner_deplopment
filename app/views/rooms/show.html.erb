@@ -1,0 +1,24 @@
+<h1>DM with <%= (@room.users - [current_user]).first.display_name_or_default %></h1>
+
+<div id="messages" style="max-width:600px; margin:0 auto; padding:10px; border:1px solid #ccc; border-radius:8px; height:400px; overflow-y:scroll;">
+  <% @messages.each do |message| %>
+    <div style="margin-bottom:10px; display:flex; align-items:center;">
+      <% if message.user.avatar.attached? %>
+        <%= image_tag message.user.avatar.variant(resize_to_limit: [40,40]), style:"border-radius:50%; margin-right:8px;" %>
+      <% else %>
+        <div style="width:40px; height:40px; border-radius:50%; background:#ddd; display:flex; align-items:center; justify-content:center; margin-right:8px;">👤</div>
+      <% end %>
+      <div>
+        <strong><%= message.user.display_name_or_default %></strong>
+        <p><%= message.content %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with model: [@room, @message], local: true do |f| %>
+  <div style="display:flex; gap:8px; margin-top:10px;">
+    <%= f.text_field :content, placeholder: "メッセージを入力", style: "flex:1; padding:8px; border-radius:6px; border:1px solid #ccc;" %>
+    <%= f.submit "送信", class: "btn", style:"background:#007bff; color:#fff; padding:8px 16px; border-radius:6px;" %>
+  </div>
+<% end %>
