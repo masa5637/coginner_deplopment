@@ -45,4 +45,16 @@ class User < ApplicationRecord
   def following?(user)
     followings.include?(user)
   end
+
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: [:google_oauth2, :twitter]
+
+  def self.from_omniauth(auth)
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email || "#{auth.uid}@example.com"
+      user.password = Devise.friendly_token[0, 20]
+      user.display_name = auth.info.name
+    end
+  end
 end

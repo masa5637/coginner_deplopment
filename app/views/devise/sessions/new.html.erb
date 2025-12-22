@@ -23,6 +23,12 @@
   <% end %>
 </div>
 
+<div style="text-align:center; margin-top:20px;">
+  <p>SNSでログイン</p>
+  <%= link_to "Googleでログイン", user_google_oauth2_omniauth_authorize_path, style: "padding:5px 20px; background-color:#db4437; color:#fff; border-radius:5px; display:inline-block; margin-right:10px;" %>
+  <%= link_to "Twitterでログイン", user_twitter_omniauth_authorize_path, style: "padding:5px 20px; background-color:#1da1f2; color:#fff; border-radius:5px; display:inline-block;" %>
+</div>
+
 <div style="text-align:center; margin-top:15px;">
   <%= link_to "サインアップはこちら", new_user_registration_path %>
 </div>

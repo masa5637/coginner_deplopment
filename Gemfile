@@ -33,6 +33,11 @@ gem "sidekiq", '~> 8.0'
 gem "kaminari"
 
 gem "hotwire-rails"
+
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-twitter'
+gem 'dotenv-rails', groups: [:development, :test]
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.5", ">= 7.1.5.2"
 
