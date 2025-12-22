@@ -4,7 +4,7 @@ class ProfilesController < ApplicationController
 
   def show
     if params[:id].present?
-      @user = user.find(params[:id])
+      @user = User.find(params[:id])
     else
       @user = current_user
     end

@@ -1,7 +1,7 @@
 <h1 style="text-align:center; margin:20px 0;">プロフィール</h1>
 
 <div style="max-width:800px; margin:0 auto; background:#fff; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.1); padding:20px;">
-  
+
   <!-- アバター -->
   <div style="text-align:center; margin-bottom:20px;">
     <% if @user.avatar.attached? %>
@@ -14,20 +14,36 @@
   </div>
 
   <!-- 名前 -->
-  <h2 style="text-align:center;"><%= @user.display_name || "ユーザー" %></h2>
+  <h2 style="text-align:center;"><%= @user.display_name_or_default %></h2>
   
   <!-- 自己紹介 -->
-  <p style="text-align:center; color:#666;"><%= @user.bio.presence || "自己紹介はまだありません。" %></p>
+  <p style="text-align:center; color:#666;"><%= @user.profile&.bio.presence || "自己紹介はまだありません。" %></p>
 
-  <!-- 編集ボタン -->
-  <div style="text-align:center; margin:15px 0;">
-    <%= link_to "プロフィールを編集", edit_profile_path, class: "btn", style: "background:#007bff; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none;" %>
+  <!-- フォロー数 / フォロワー数（リンク付き） -->
+  <div style="text-align:center; margin:10px 0; font-size:14px; color:#333;">
+    フォロー: <%= link_to @user.followings.count, followings_user_path(@user) %> |
+    フォロワー: <%= link_to @user.followers.count, followers_user_path(@user) %>
   </div>
+
+  <!-- 編集ボタン / フォロー・アンフォロー -->
+  <% if @user == current_user %>
+    <div style="text-align:center; margin:15px 0;">
+      <%= link_to "プロフィールを編集", edit_profile_path, class: "btn", style: "background:#007bff; color:#fff; padding:8px 16px; border-radius:6px; text-decoration:none;" %>
+    </div>
+  <% else %>
+    <div style="text-align:center; margin:15px 0;">
+      <% if current_user.following?(@user) %>
+        <%= button_to "フォロー解除", relationship_path(current_user.active_relationships.find_by(followed_id: @user.id)), method: :delete, class: "btn", style: "background:#dc3545; color:#fff; padding:6px 12px; border-radius:6px;" %>
+      <% else %>
+        <%= button_to "フォロー", relationships_path(followed_id: @user.id), method: :post, class: "btn", style: "background:#007bff; color:#fff; padding:6px 12px; border-radius:6px;" %>
+      <% end %>
+    </div>
+  <% end %>
 
   <hr style="margin:20px 0;">
 
   <!-- 投稿した作品 -->
-  <h3>自分の投稿作品</h3>
+  <h3>投稿作品</h3>
   <% if @works.any? %>
     <ul>
       <% @works.each do |work| %>

@@ -13,8 +13,15 @@ Rails.application.routes.draw do
 
   # ✅ 単数形に変更（resource）にする
   resource :profile, only: [:show, :edit, :update]
-  resources :profile, only: [:show]
+  resources :users, only: [:show] do
+    member do
+      get :followings
+      get :followers
+    end
+  end
 
   # ✅ いいね一覧
   resources :likes, only: [:index]
+
+  resources :relationships, only: [:create, :destroy]
 end
